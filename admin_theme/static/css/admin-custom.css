@@ -1,0 +1,150 @@
+ul li{
+    list-style-type: none;
+}
+
+#site-name{
+    font-size: 1.09375rem;
+    line-height: inherit;
+    white-space: nowrap
+}
+
+#site-name a{
+    color: rgba(255, 255, 255, 0.8)
+}
+
+#site-name a:hover{
+    color: white;
+}
+
+a:focus, a:hover {
+    color: #036;
+}
+
+/* a:link , a:visited{
+    color: #2962FF;
+}
+
+a:hover {
+    color: #381be7;
+} */
+
+.page-breadcrumb .breadcrumb .breadcrumb-item+.breadcrumb-item:before{
+    color: black;
+}
+
+.submit-row a.deletelink{
+    height: auto !important;
+}
+
+table .form-row{
+    display: table-row;
+}
+
+.original p{
+    display: none;
+}
+
+ul.errorlist{
+    width: 100%;
+}
+
+.delete-confirmation form .cancel-link{
+    background: #5bc0de;
+    color: white;
+    vertical-align: middle;
+    display: inline;
+}
+
+.delete-confirmation form .cancel-link:hover {
+    color: #fff;
+    background-color: #31b0d5;
+    border-color: #269abc;
+}
+
+.submit-row input.default{
+    text-transform: capitalize !important;
+}
+
+.module h2{
+    font-size: 18px;
+    font-weight: 600;
+    background: #6c757d;
+}
+
+/* Form elements */
+
+.form-row input[type=text], .form-row input[type=password], .form-row input[type=email], .form-row input[type=url], .form-row input[type=tel], .form-row input[type=number], .form-row textarea, .form-row select, .form-row .vTextField{
+    color: #4F5467;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #e9ecef;
+    border-radius: 2px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 6px 8px;
+    min-height: 36px;
+    font-size: 14px;
+    -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    -o-transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+.form-row input[type=text]:focus, .form-row input[type=password]:focus, .form-row input[type=email]:focus, .form-row input[type=url]:focus, .form-row input[type=tel]:focus, .form-row input[type=number]:focus, .form-row textarea:focus, .form-row select:focus, .form-row .vTextField:focus{
+    color: #4F5467;
+    background-color: #fff;
+    border-color: rgba(0, 0, 0, 0.25);
+    outline: 0;
+    -webkit-box-shadow: transparent;
+    box-shadow: transparent;
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    color: #fff;
+    background-color: #28b779;
+    border-color: #28b779;
+} 
+
+.button.default:hover, input[type=submit].default:hover, .submit-row input.default:hover {
+    color: #fff;
+    background-color: #219864;
+    border-color: #1f8d5d;
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button{
+    color: #fff;
+    background-color: #2255a4;
+    border-color: #2255a4;
+}
+
+.button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover, a.button:hover{
+    color: #fff;
+    background-color: #1b4584;
+    border-color: #193f7a;
+}
+
+/* End of Form Elements */
+
+/* Table */
+
+.inline-group .tabular tr.has_original td{
+    padding: 10px !important;
+    vertical-align: middle;
+}
+
+/* End of table */
+
+/* Profile Nav Item */
+
+.dropdown-item, .dropdown-item{
+    color: #16181b !important;
+}
+
+.dropdown-item.active, .dropdown-item:active{
+    background: unset;
+}
+
+#changelist-filter{
+    z-index: auto !important;
+}

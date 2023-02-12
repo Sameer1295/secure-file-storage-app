@@ -1,0 +1,27 @@
+.page-wrapper{
+    margin: 0px;
+}
+
+#main-wrapper[data-sidebartype=full] .page-wrapper{
+    margin: 0px;
+}
+
+.page-wrapper>.container-fluid{
+    padding: 0px;
+}
+
+.auth-wrapper{
+    height: 100%;
+}
+
+p{
+    font-size: 18px;
+}
+
+p.message{
+    color: white;
+}
+
+a:hover{
+    color: unset;
+}

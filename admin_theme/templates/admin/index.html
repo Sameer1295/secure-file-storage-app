@@ -1,0 +1,31 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static  %}
+{% load utils %}
+
+{% block content %}
+
+    <div class='row'>
+        {% if app_list %}
+            {% for app in app_list %}
+                {% for model in app.models %}
+                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                        <div class="card card-hover">
+                            <a href='{{ model.admin_url }}'>
+                            <div class="box 
+                            {% cycle 'bg-cyan' 'bg-success' 'bg-warning' 'bg-danger' 'bg-info' %} text-center"> 
+                                <h1 class="font-light text-white">
+                                    <i class=" {{ model.name | replace_icon }} "></i>
+                                </h1>
+                                <h6 class="text-white"> {{ model.name }} </h6>
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+    </div>
+
+{% endblock %}
+

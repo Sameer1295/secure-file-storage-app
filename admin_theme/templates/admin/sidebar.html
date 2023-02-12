@@ -1,0 +1,32 @@
+{% load i18n static %}
+{% load common_utils %}
+
+{% get_app_list as app_list %}
+
+{% if app_list %}
+    <aside class="left-sidebar" data-sidebarbg="skin5">
+        <!-- Sidebar scroll-->
+        <div class="scroll-sidebar">
+            <!-- Sidebar navigation-->
+            <nav class="sidebar-nav">
+                {% comment %} {{app_list.0.models.0.name}} {% endcomment %}
+                <ul id="sidebarnav" class="p-t-30">
+                    {% for app in app_list %}
+                        {% for model in app.models %}
+                            
+                            {% comment %} <li class="sidebar-item" style="display:{{ model.name | is_not_master_table }};"> {% endcomment %}
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" {% if model.name == 'Notifications' %} href="/manage/notification/notification/add/" {% else %} href="{{ model.admin_url }}" {% endif %} aria-expanded="false">
+                                    <i class="{{ model.name | replace_icon }}"></i>
+                                    <span class="hide-menu"> {{ model.name }} </span>
+                                </a>
+                            </li>
+
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </nav>
+        </div>
+    </aside>
+{% else %}
+{% endif %}

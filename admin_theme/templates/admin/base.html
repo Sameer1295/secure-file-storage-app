@@ -1,0 +1,285 @@
+{% load i18n static %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+
+
+<head>
+<title>{% block title %}{% endblock %}</title>
+<link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}
+{% endblock %}">
+
+<link rel="stylesheet" type="text/css" href="{% static "libs/flot/css/float-chart.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "dist/css/style.min.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "css/admin-custom.css" %}">
+
+
+<!-- Admin Panel Theme Link  -->
+<!-- https://www.wrappixel.com/demos/free-admin-templates/matrix-admin/index.html -->
+<!-- Admin Panle Theme CSS  -->
+
+{% block extrastyle %}{% endblock %}
+{% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}">{% endif %}
+{% block extrahead %}{% endblock %}
+<script src="{% static "libs/jquery/dist/jquery.min.js" %}"></script>
+{% block responsive %}
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive.css" %}">
+    {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive_rtl.css" %}">{% endif %}
+
+    <link rel="stylesheet" type="text/css" href="{% static "libs/flot/css/float-chart.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "libs/select2/dist/css/select2.css" %}">
+{% endblock %}
+{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE">{% endblock %}
+</head>
+
+
+{% load i18n %}
+
+<body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}"
+  data-admin-utc-offset="{% now "Z" %}">
+
+   <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+
+<!-- Container -->
+<div id="main-wrapper">
+
+    {% if not is_popup %}
+
+    {% block header %}
+
+        <header class="topbar" data-navbarbg="skin5">
+            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+            
+                <div class="navbar-header" data-logobg="skin5">
+                    <!-- This is for the sidebar toggle which is visible on mobile only -->
+                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+                    <!-- ============================================================== -->
+                    <!-- Logo -->
+                    <!-- ============================================================== -->
+                    <a class="navbar-brand" href="{% url 'admin:index' %}">
+                        <!-- Logo icon -->
+                        {% comment %} <b class="logo-icon p-l-10">
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <img src="{% static "" %}" alt="homepage" class="light-logo" />
+                           
+                        </b> {% endcomment %}
+                        <!--End Logo icon -->
+                         <!-- Logo text -->
+                        <span class="logo-text">
+                             <!-- dark Logo text -->
+                             Secure File Storage App
+                        </span>
+                        
+                        <!-- Logo icon -->
+                        <!-- <b class="logo-icon"> -->
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <!-- <img src="../../assets/images/logo-text.png" alt="homepage" class="light-logo" /> -->
+                            
+                        <!-- </b> -->
+                        <!--End Logo icon -->
+                    </a>
+                    <!-- ============================================================== -->
+                    <!-- End Logo -->
+                    <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+                    <!-- Toggle which is visible on mobile only -->
+                    <!-- ============================================================== -->
+                    <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i class="ti-more"></i></a>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav float-left mr-auto">
+                        <li class="nav-item d-none d-md-block"><a class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(0)" data-sidebartype="mini-sidebar"><i class="mdi mdi-menu font-24"></i></a></li>
+                        <!-- ============================================================== -->
+
+                        <li class="nav-item ">
+                            <span class="nav-link  waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% block branding %}{% endblock %}
+                                {% block nav-global %}{% endblock %}
+                            </span>
+                        </li>
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- Right side toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav float-right">
+                        {% comment %} <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% block welcome-msg %}
+                                {% trans 'Welcome,' %}
+                                <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+                            {% endblock %}
+                            </a>
+                        </li> {% endcomment %}
+                        <!-- ============================================================== -->
+                        <!-- Comment -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </a>
+                        </li>
+                        <!-- ============================================================== -->
+                        <!-- ============================================================== -->
+
+                        <!-- ============================================================== -->
+                        <!-- User profile and search -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                            <img src="{% static "" %}" alt="user" class="rounded-circle" width="31"></a>
+                            <div class="dropdown-menu dropdown-menu-right user-dd animated">
+                                {% block usertools %}
+                                    {% if has_permission %}
+                                        {% comment %} {% block userlinks %} {% endcomment %}
+                                            {% if site_url %}
+                                                <a class="dropdown-item" href="{{ site_url }}" ><i class="ti-email m-r-5 m-l-5"></i> {% trans 'View site' %} </a>
+                                            {% endif %}
+                                            {% if user.is_active and user.is_staff %}
+                                                {% url 'django-admindocs-docroot' as docsroot %}
+                                                {% if docsroot %}
+                                                <a class="dropdown-item" href="{{ docsroot }}" ><i class="ti-email m-r-5 m-l-5"></i> {% trans 'Documentation' %} </a>
+                                                {% endif %}
+                                            {% endif %}
+                                            {% if user.has_usable_password %}
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="{% url 'admin:password_change' %}" ><i class="ti-settings m-r-5 m-l-5"></i> {% trans 'Change password' %}</a>
+                                            {% endif %}
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="{% url 'admin:logout' %}" ><i class="fa fa-power-off m-r-5 m-l-5"></i> {% trans 'Log out' %} </a>
+                                        {% comment %} {% endblock %} {% endcomment %}
+                                    {% endif %}
+                                {% endblock %}
+                            </div>
+                        </li>
+                        <!-- ============================================================== -->
+                        <!-- User profile and search -->
+                        <!-- ============================================================== -->
+                    </ul>
+                </div>
+            </nav>
+        </header>
+    
+    {% endblock %}
+    {% endif %}
+
+    
+
+    {% block sidebar %}
+         {% include "admin/sidebar.html" %}
+    {% endblock %}
+
+    <div class='page-wrapper'>
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+
+        {% block breadcrumbs %}
+            {% include "admin/breadcrumbs.html" %}
+        {% endblock %}
+
+    <!-- ============================================================== -->
+    <!-- End Bread crumb -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Block Message-->
+    <!-- ============================================================== -->
+
+        {% block messages %}
+            {% if messages %}
+                <ul class="messagelist">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endblock messages %}
+
+    <!-- ============================================================== -->
+    <!-- End Block Message -->
+    <!-- ============================================================== -->
+    
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
+    <div class="container-fluid">
+        {% block pretitle %}{% endblock %}
+        
+        {% block content_title %}
+            {% if title %}
+                <h1>{{ title }}</h1>
+            {% endif %}
+        {% endblock %}
+            
+        {% block content %}
+            {% block object-tools %}{% endblock %}
+            {{ content }}
+        {% endblock %}
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Container fluid  -->
+    <!-- ============================================================== -->
+
+    </div>
+
+
+
+    {% block footer %}
+        <div id="footer"></div>
+    {% endblock %}
+</div>
+<!-- END Container -->
+
+
+<!-- All Jquery -->
+    <!-- ============================================================== -->
+    
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{% static "libs/popper.js/dist/umd/popper.min.js" %}"></script>
+    <script src="{% static "libs/bootstrap/dist/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "libs/select2/dist/js/select2.full.min.js" %}"></script>
+    <script src="{% static "libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js" %}"></script>
+    <script src="{% static "extra-libs/sparkline/sparkline.js" %}"></script>
+    
+    <!--Wave Effects -->
+    <script src="{% static "dist/js/waves.js" %}"></script>
+
+    <!--Menu sidebar -->
+    <script src="{% static "dist/js/sidebarmenu.js" %}"></script>
+    
+    <!--Custom JavaScript -->
+    <script src="{% static "dist/js/custom.min.js" %}"></script>
+
+    <!--This page JavaScript -->
+    <!-- <script src="../../dist/js/pages/dashboards/dashboard1.js"></script> -->
+    <!-- Charts js Files -->
+    <script src="{% static "libs/flot/excanvas.js" %}"></script>
+    <script src="{% static "libs/flot/jquery.flot.js" %}"></script>
+    <script src="{% static "libs/flot/jquery.flot.pie.js" %}"></script>
+    <script src="{% static "libs/flot/jquery.flot.time.js" %}"></script>
+    <script src="{% static "libs/flot/jquery.flot.stack.js" %}"></script>
+    <script src="{% static "libs/flot/jquery.flot.crosshair.js" %}"></script>
+    <script src="{% static "libs/flot.tooltip/js/jquery.flot.tooltip.min.js" %}"></script>
+    <script src="{% static "dist/js/pages/chart/chart-page-init.js" %}"></script>
+   
+
+
+</body>
+</html>

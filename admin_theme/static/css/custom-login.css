@@ -1,0 +1,27 @@
+.page-wrapper{
+    margin: 0px;
+}
+
+#main-wrapper[data-sidebartype=full] .page-wrapper{
+    margin: 0px;
+}
+
+.page-wrapper>.container-fluid{
+    padding: 0px;
+}
+
+.login .form-row label{
+    color: white;
+}
+
+.auth-wrapper{
+    height: 100%;
+}
+
+.container-fluid > .errornote{
+    display: none;
+}
+
+.errornote{
+    margin: 10px 0px;
+}

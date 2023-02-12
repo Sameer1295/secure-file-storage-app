@@ -1,0 +1,20 @@
+{% extends "admin/change_form.html" %}
+
+{% block breadcrumbs %}
+{% include "admin/breadcrumbs.html" %}
+<div class="page-breadcrumb">
+    <button class="btn btn-cyan" onclick="goback()"><span><i class="fa fa-arrow-left"></i></span> Back Button</button>
+</div>
+{% endblock %}
+
+{% block object-tools %}
+{% endblock %}
+
+{% block admin_change_form_document_ready %}
+{{ block.super }}
+<script>
+    function goback() {
+        window.history.back()
+    }
+</script>
+{% endblock %}
