@@ -17,8 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView
 
+from file_storage.adminViews import sport_dashboard
+
 urlpatterns = [
+    path('file_access/', sport_dashboard, name='file_access'),
     path('admin/', admin.site.urls),
     path("customuser/", include("customuser.urls")),
     path("customuser/", include("django.contrib.auth.urls")),
+    
 ]

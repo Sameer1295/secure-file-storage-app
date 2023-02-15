@@ -1,0 +1,43 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %} Documents | {{ site_title|default:_('SFA site admin') }}{% endblock %}
+    </title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static " dist/css/bootstrap.css" %}">
+  </head>
+
+<body>
+
+{% block breadcrumbs %}
+
+<div class="page-breadcrumb pt-10px" style="min-height: 66px;">
+
+  <a class="btn btn-cyan" style= "background-color: white;float: left;color: black;border: 2px solid #4CAF50;" href="/manage/schools/school/"><span><i class="fa fa-arrow-left"></i></span> Back Button</a>
+
+
+  {% if images %}
+
+  <!--
+  <div class="text-center">
+      <a class="btn  btn-primary"  style="color:#fff; background-color: #008CBA;" href="/sfa_admin/school_status_approve/{{school_details.id}}/"> <i aria-hidden="true"></i> Approve Documents </a>
+
+      <a class="btn  btn-primary" style="color:#fff; background-color: #008CBA;" href="/sfa_admin/school_status_reject/{{school_details.id}}/" > <i aria-hidden="true"></i> Reject Documents </a>
+  </div>
+  -->
+
+{% endif %}
+
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+  <h2>file access works</h2>
+{% endblock %}  
+</body>
+</html>
