@@ -29,12 +29,11 @@ def encrypt_file(file_path, key):
     # first need access to file in request
     # then that encrypted_filepath file is read and ecnrpyted file is generated
 class FileStorageAdmin(admin.ModelAdmin):
-    exclude = ('filename','encrypted_aeskey','ecc_public_key',)
+    exclude = ('filename','encrypted_aeskey','ecc_public_key','created_at','created_by','deleted_at','deleted_by','updated_at','updated_by')
     
     def save_model(self, request, obj, form, change):
         print("called........../////////////")
         # Call the parent save_model method to save the model instance
-        super().save_model(request, obj, form, change)
         uploaded_file = request.FILES['encrypted_filepath']
         
         # Generate a new AES key
@@ -45,14 +44,25 @@ class FileStorageAdmin(admin.ModelAdmin):
             f.write(uploaded_file.read())
         encrypt_file(file_path, key)
         # Save the key and file path to the database
-        obj.aes_key = key
-        obj.encrypted_file = file_path
+        obj.encrypted_aeskey = key
+        obj.filename = uploaded_file.name
+        obj.encrypted_filepath = file_path
+        
+        if change:
+            obj.updated_by = request.user.id
+        else:
+            obj.created_by = request.user.id
         # Call the parent save_model method
         super().save_model(request, obj, form, change)
         
         # encrypted_file_path = 'sdfsdf1111'+image_path.name
         # key = 'sdfsdfdsffdsgdsgdsgsdg'
         # FileStorage.objects.create(encrypted_filepath=encrypted_file_path, encrypted_aeskey=key)
+        # Deleted by 
+
+    def delete_model(self, request, obj):
+        obj.deleted_by = request.user.id
+        obj.delete()
 
 # # Register your models here.
 admin.site.register(FileStorage, FileStorageAdmin)
