@@ -17,9 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView
 
-from file_storage.adminViews import sport_dashboard
+from file_storage.adminViews import DownloadView, sport_dashboard
 
 urlpatterns = [
+    path('admin/file-download/<int:file_storage_id>/',DownloadView.as_view()),
     path('file_access/', sport_dashboard, name='file_access'),
     path('admin/', admin.site.urls),
     path("customuser/", include("customuser.urls")),

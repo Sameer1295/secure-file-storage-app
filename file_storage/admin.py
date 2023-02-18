@@ -1,3 +1,5 @@
+from asyncio import format_helpers
+import base64
 import os
 from django.contrib import admin
 from django.http import HttpResponse
@@ -15,6 +17,7 @@ from secure_file_storage_app import settings
 import os
 from django.conf import settings
 from cryptography.fernet import Fernet
+from django.utils.html import format_html
 
 def encrypt_file(file_path, key):
     with open(file_path, 'rb') as f:
@@ -23,13 +26,16 @@ def encrypt_file(file_path, key):
     encrypted_data = fernet.encrypt(data)
     with open(file_path, 'wb') as f:
         f.write(encrypted_data)
+    
+    return fernet
 
-# savemodel function works
-# need to add code to encrypt file using aes key
-    # first need access to file in request
-    # then that encrypted_filepath file is read and ecnrpyted file is generated
 class FileStorageAdmin(admin.ModelAdmin):
     exclude = ('filename','encrypted_aeskey','ecc_public_key','created_at','created_by','deleted_at','deleted_by','updated_at','updated_by')
+    list_display = ["filename","view_team_list"]
+    
+    def view_team_list(self, obj):
+        return format_html('<a class="btn btn-primary" style="border-radius:5px;background-color:#483D8B;color:white;" href="/admin/file-download/{}/">Download</a>',obj.id)
+    view_team_list.short_description = 'Team List'
     
     def save_model(self, request, obj, form, change):
         print("called........../////////////")
@@ -42,9 +48,12 @@ class FileStorageAdmin(admin.ModelAdmin):
         file_path = os.path.join(settings.MEDIA_ROOT, uploaded_file.name)
         with open(file_path, 'wb') as f:
             f.write(uploaded_file.read())
-        encrypt_file(file_path, key)
+        fernet_key = encrypt_file(file_path, key)
         # Save the key and file path to the database
-        obj.encrypted_aeskey = key
+        
+        #encrypt aeskey with ECC key of the user request.user.public_key
+
+        obj.encrypted_aeskey = fernet_key
         obj.filename = uploaded_file.name
         obj.encrypted_filepath = file_path
         
@@ -55,11 +64,6 @@ class FileStorageAdmin(admin.ModelAdmin):
         # Call the parent save_model method
         super().save_model(request, obj, form, change)
         
-        # encrypted_file_path = 'sdfsdf1111'+image_path.name
-        # key = 'sdfsdfdsffdsgdsgdsgsdg'
-        # FileStorage.objects.create(encrypted_filepath=encrypted_file_path, encrypted_aeskey=key)
-        # Deleted by 
-
     def delete_model(self, request, obj):
         obj.deleted_by = request.user.id
         obj.delete()
