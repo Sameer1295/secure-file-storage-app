@@ -27,7 +27,7 @@ class DownloadView(View):
         print('before rrrrrrrrrrrrrr')
         cipher_suite = Fernet(aes_key)
         print('after fffffffffffffffffffffff')
-        decrypted_data = aes_key.decrypt(encrypted_data)
+        decrypted_data = cipher_suite.decrypt(encrypted_data)
 
         response = HttpResponse(decrypted_data, content_type='application/octet-stream')
         response['Content-Disposition'] = f'attachment; filename="{file.filename}"'

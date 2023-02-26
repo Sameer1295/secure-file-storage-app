@@ -53,7 +53,7 @@ class FileStorageAdmin(admin.ModelAdmin):
         
         #encrypt aeskey with ECC key of the user request.user.public_key
 
-        obj.encrypted_aeskey = fernet_key
+        obj.encrypted_aeskey = key
         obj.filename = uploaded_file.name
         obj.encrypted_filepath = file_path
         
