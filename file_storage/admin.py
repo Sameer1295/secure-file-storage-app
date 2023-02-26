@@ -18,6 +18,8 @@ import os
 from django.conf import settings
 from cryptography.fernet import Fernet
 from django.utils.html import format_html
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 def encrypt_file(file_path, key):
     with open(file_path, 'rb') as f:
@@ -31,7 +33,14 @@ def encrypt_file(file_path, key):
 
 class FileStorageAdmin(admin.ModelAdmin):
     exclude = ('filename','encrypted_aeskey','ecc_public_key','created_at','created_by','deleted_at','deleted_by','updated_at','updated_by')
-    list_display = ["filename","view_team_list"]
+    list_display = ["filename","file_owner","view_team_list"]
+    
+    def file_owner(self, obj):
+        user_data = User.objects.get(pk=obj.created_by)
+        return user_data.username
+
+    file_owner.admin_order_field = 'user__username'
+    file_owner.short_description = 'Owner'
     
     def view_team_list(self, obj):
         return format_html('<a class="btn btn-primary" style="border-radius:5px;background-color:#483D8B;color:white;" href="/admin/file-download/{}/">Download</a>',obj.id)
