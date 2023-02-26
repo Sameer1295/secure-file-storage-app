@@ -49,23 +49,26 @@ class FileStorageAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         print("called........../////////////")
         # Call the parent save_model method to save the model instance
-        uploaded_file = request.FILES['encrypted_filepath']
-        
-        # Generate a new AES key
-        key = Fernet.generate_key()
-        # Encrypt the file and save it to disk
-        file_path = os.path.join(settings.MEDIA_ROOT, uploaded_file.name)
-        with open(file_path, 'wb') as f:
-            f.write(uploaded_file.read())
-        fernet_key = encrypt_file(file_path, key)
-        # Save the key and file path to the database
-        
-        #encrypt aeskey with ECC key of the user request.user.public_key
+        if 'encrypted_filepath' in request.FILES:
+            uploaded_file = request.FILES['encrypted_filepath']
+            
+            # Generate a new AES key
+            key = Fernet.generate_key()
+            # Encrypt the file and save it to disk
+            file_path = os.path.join(settings.MEDIA_ROOT, uploaded_file.name)
+            with open(file_path, 'wb') as f:
+                f.write(uploaded_file.read())
+            fernet_key = encrypt_file(file_path, key)
+            # Save the key and file path to the database
+            
+            #encrypt aeskey with ECC key of the user request.user.public_key
 
-        obj.encrypted_aeskey = key
-        obj.filename = uploaded_file.name
-        obj.encrypted_filepath = file_path
-        
+            obj.encrypted_aeskey = key
+            obj.filename = uploaded_file.name
+            obj.encrypted_filepath = file_path
+        obj.save()
+        obj.access_users.set(obj.access_users.all())
+
         if change:
             obj.updated_by = request.user.id
         else:
@@ -76,6 +79,16 @@ class FileStorageAdmin(admin.ModelAdmin):
     def delete_model(self, request, obj):
         obj.deleted_by = request.user.id
         obj.delete()
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            # Superusers can see all files
+            return qs
+        else:
+            # Regular users can only see files they have access to
+            qs = qs.filter(access_users=request.user) | qs.filter(created_by=request.user.id)
+            return qs.distinct()
 
 # # Register your models here.
 admin.site.register(FileStorage, FileStorageAdmin)
