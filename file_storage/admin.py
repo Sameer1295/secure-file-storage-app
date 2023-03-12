@@ -60,10 +60,25 @@ class FileStorageAdmin(admin.ModelAdmin):
                 f.write(uploaded_file.read())
             fernet_key = encrypt_file(file_path, key)
             # Save the key and file path to the database
-            
-            #encrypt aeskey with ECC key of the user request.user.public_key
+            # Load the user's public key from the database
+            public_key = serialization.load_pem_public_key(
+                request.user.public_key.encode('utf-8'),
+                backend=default_backend(),
+            )
 
-            obj.encrypted_aeskey = key
+            # Encrypt the AES key with RSA
+            encrypted_key_bytes = public_key.encrypt(
+                key,
+                padding.OAEP(
+                    mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                    algorithm=hashes.SHA256(),
+                    label=None
+                )
+            )
+            #encrypt aeskey with ECC key of the user request.user.public_key
+            # encrypted_key_b64 = base64.b64encode(encrypted_key_bytes).decode('utf-8')
+
+            obj.encrypted_aeskey = encrypted_key_bytes
             obj.filename = uploaded_file.name
             obj.encrypted_filepath = file_path
         obj.save()
