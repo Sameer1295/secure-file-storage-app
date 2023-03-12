@@ -4,6 +4,7 @@
 import base64
 import os
 from django.shortcuts import render
+from customuser.models import CustomUser
 
 from file_storage.models import FileStorage
 from secure_file_storage_app import settings
@@ -26,10 +27,10 @@ class DownloadView(View):
         file = FileStorage.objects.get(id=file_storage_id)
         encrypted_path = file.filename
         aes_key = file.encrypted_aeskey
-
+        created_by_user = CustomUser.objects.get(pk=file.created_by)
         # Decrypt the encrypted AES key using the user's RSA private key
         private_key = serialization.load_pem_private_key(
-            request.user.private_key.encode('utf-8'),
+            created_by_user.private_key.encode('utf-8'),
             password=None,
             backend=default_backend(),
         )
